@@ -1,0 +1,27 @@
+# temp files
+*~
+
+# Trash
+.Trash-*
+
+# Fuse hidden files
+.fuse_hidden*
+
+# GNOME/KDE directory caches
+.directory
+.config/
+.cache/
+.local/share/Trash/
+
+# Vim swap files
+*.swp
+*.swo
+
+# Logs, core dumps
+*.log
+core
+core.*
+
+# systemd journal files
+*.journal
+*.journal~
