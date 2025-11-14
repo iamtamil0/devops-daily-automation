@@ -1,0 +1,21 @@
+name: Basic CI Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  linux-ci:
+    name: Run Shell Linting (Linux)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Basic Shell Check
+        run: |
+          echo "Running shell syntax validation"
+          find . -name "*.sh" -print0 | xargs -0 -I{} bash -n {}
