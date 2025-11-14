@@ -1,5 +1,7 @@
 # temp files
 *~
+*.tmp        # General temp files
+*.temp       # Another temp extension
 
 # Trash
 .Trash-*
@@ -25,3 +27,31 @@ core.*
 # systemd journal files
 *.journal
 *.journal~
+# logs 
+*.log
+logs/
+
+# ignore compiled files
+*.out
+*.o
+*.so
+
+# ingnore system files
+.DS_Store
+Thumbs.db
+
+# ingnore backup files
+*.bak
+*.old
+*~
+
+# ingnore IDE/Editor Files
+.vscode/
+.idea/
+
+# ignore python cache files
+__pycache__/
+*.pyc
+
+# ignore node.js modules (if used later)
+node_modules/
