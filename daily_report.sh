@@ -4,6 +4,9 @@
 # Daily Automation System Report
 # ================================
 
+DATE=$(date +"%Y-%m-%d_%H-%M")
+LOGFILE="logs/report_$DATE.log"
+
 DATE=$(date +"%Y-%m-%d_%H-%M-%S")
 OUTPUT_FILE="reports/system_report_$DATE.txt"
 
@@ -36,3 +39,14 @@ ip addr show >> $OUTPUT_FILE
 echo "" >> $OUTPUT_FILE
 echo "Report Saved Successfully: $OUTPUT_FILE"
 echo "Done!"
+
+echo "Daily DevOps Task Report - $DATE" >> "$LOGFILE"
+echo "--------------------------------" >> "$LOGFILE"
+echo "System Time: $(date)" >> "$LOGFILE"
+echo "User: $(whoami)" >> "$LOGFILE"
+echo "Running inside GitHub Codespaces" >> "$LOGFILE"
+echo "--------------------------------" >> "$LOGFILE"
+
+git add logs
+git commit -m "Daily report - $DATE"
+git push
