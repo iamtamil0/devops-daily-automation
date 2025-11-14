@@ -31,6 +31,9 @@ core.*
 *.log
 logs/
 
+# Allow reports folder
+!reports/
+
 # ignore compiled files
 *.out
 *.o
@@ -55,3 +58,6 @@ __pycache__/
 
 # ignore node.js modules (if used later)
 node_modules/
+
+# logs & reports
+*.txt
