@@ -2,95 +2,67 @@ name: Daily System Report
 
 permissions:
   contents: write
-  
+
 on:
   schedule:
     - cron: "0 3 * * *"   # Runs daily at 3 AM UTC
-  workflow_dispatch:      # Allows manual trigger
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+
+      # Checkout code
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Make script executable
-        run: chmod +x daily_report.sh
+      # Make script executable
+      - name: Make daily report script executable
+        run: chmod +x script/daily_report.sh
 
-      - name: Run the daily report script
-        run: bash daily_report.sh
+      # Run report script
+      - name: Run report script
+        run: bash script/daily_report.sh
 
+      # Commit changes
       - name: Commit report
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add reports/
-          git commit -m "Daily report generated on $(date)"
-        continue-on-error: true
-
-      - name: Push changes
-        run: |
-          git push origin main
-      
-      - name: Start Workflow Log
-        run: echo "=== Start Workflow Started at $(date) ==="
-
-      - name: Run the daily report script
-        run: |
-          echo "Running script at $(date)"
-          bash script/daily_report.sh
-
-      - name: Commit report
-        run: |
-          echo "Committing report at $(date)"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add reports/
           git commit -m "Daily report generated on $(date)" || echo "No changes to commit"
-          
-      - name: push changes
-        run: |
-          echo "Pushing updates at $(date)"
-          git push origin main
 
+      # Push changes
+      - name: Push changes
+        run: git push origin main
+
+      # Slack Notification
       - name: Send Slack Notification
         if: always()
         run: |
-          STATUS="Success"
-          if [ '${{ job.status}}' != 'success']; then
-            STATUS="Failed ❌"
-          else
+          if [ "${{ job.status }}" = "success" ]; then
             STATUS="Success ✅"
+          else
+            STATUS="Failed ❌"
           fi
 
           curl -X POST -H 'Content-type: application/json' \
           --data "{
-            \"text\": *Devops Automation Report*\nStatus: *$STATUS*\nRepository: ${{ github.repository }}\nWorkflws: ${{ github.workflow }}\nRun ID: ${{ github.run_id }}\nTriggered at: $(date)\"
+            \"text\": \"*DevOps Automation Report*\nStatus: $STATUS\nRepository: ${{ github.repository }}\nWorkflow: ${{ github.workflow }}\nRun ID: ${{ github.run_id }}\nTriggered at: $(date)\"
           }" \
-          ${{ secrets.SLACK_WEBHOOK-URL }}
+          ${{ secrets.SLACK_WEBHOOK_URL }}
 
+      # Upload Report
       - name: Upload Report as Artifact
-        uses: action/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: system-report
           path: reports/*.txt
-      
-      
-      - name: Push changes (with retry)
-        run: |
-          n=0
-          unitil [ $n -ge 3]
-          do
-            git push origin main && break
-            n=$((n+1))
-            echo "Retry #$n in 5 seconds..."
-            sleep 5
-          done
-    
+
     concurrency:
       group: daily-report
       cancel-in-progress: true
