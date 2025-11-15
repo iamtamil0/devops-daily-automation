@@ -1,52 +1,38 @@
 #!/bin/bash
 
-# ================================
-# Daily Automation System Report
-# ================================
+# Creating Foldersif missing
+mkdir -p reports
+mkdir -p logs
 
-DATE=$(date +"%Y-%m-%d_%H-%M")
-LOGFILE="logs/report_$DATE.log"
+LOG_FILE="log/run_$(date +%Y-%m-%d_*%H-%M-%S).log"
+REPORT_FILE="reports/system_report_$(date +%Y-%m-%d_%H-%m-%s).txt"
 
-DATE=$(date +"%Y-%m-%d_%H-%M-%S")
-OUTPUT_FILE="reports/system_report_$DATE.txt"
+echo "Generating system report..." | tee -a "$LOG_FILE"
 
-echo "Generating system report..."
-echo "----------------------------------" > $OUTPUT_FILE
-echo "📅 Report Generated On: $(date)" >> $OUTPUT_FILE
-echo "----------------------------------" >> $OUTPUT_FILE
+{
+    echo"===== System Report ===="
+    echo "Date: $(date)"
+    echo "Hostname: $(hostname)"
 
-# CPU Info
-echo "" >> $OUTPUT_FILE
-echo "🖥️ CPU Usage:" >> $OUTPUT_FILE
-top -bn1 | grep "Cpu(s)" >> $OUTPUT_FILE
+    echo "===== Disk Usage ====="
+    df -h
+    echo
 
-# Memory
-echo "" >> $OUTPUT_FILE
-echo "🧠 Memory Usage:" >> $OUTPUT_FILE
-free -h >> $OUTPUT_FILE
+    echo "===== CPU Load ====="
+    uptime
+    echo
 
-# Disk
-echo "" >> $OUTPUT_FILE
-echo "💽 Disk Usage:" >> $OUTPUT_FILE
-df -h >> $OUTPUT_FILE
+    echo "===== Last Logged-in Users ====="
+    last | head
+    echo
+} > "$REPORT_FILE"
 
-# Network
-echo "" >> $OUTPUT_FILE
-echo "🌐 Network Info:" >> $OUTPUT_FILE
-ip addr show >> $OUTPUT_FILE
+echo "Report Saved Successfully: $REPORT_FILE" | tee -a "$LOG_FILE"
 
-# Finished
-echo "" >> $OUTPUT_FILE
-echo "Report Saved Successfully: $OUTPUT_FILE"
+# Auto=cleanup: delete reports older than 7 days
+find reports/ -type f -mtime +7 -delete
+find logs/ -type f -mtime +7 -delete
+
+echo "old reports & logs cleaned (older then 7 days)" | tee -a "$LOG_FILE"
+
 echo "Done!"
-
-echo "Daily DevOps Task Report - $DATE" >> "$LOGFILE"
-echo "--------------------------------" >> "$LOGFILE"
-echo "System Time: $(date)" >> "$LOGFILE"
-echo "User: $(whoami)" >> "$LOGFILE"
-echo "Running inside GitHub Codespaces" >> "$LOGFILE"
-echo "--------------------------------" >> "$LOGFILE"
-
-git add logs
-git commit -m "Daily report - $DATE"
-git push
