@@ -59,7 +59,9 @@ jobs:
         run: |
           STATUS="Success"
           if [ '${{ job.status}}' != 'success']; then
-            STATUS="Failed"
+            STATUS="Failed ❌"
+          else
+            STATUS="Success ✅"
           fi
 
           curl -X POST -H 'Content-type: application/json' \
@@ -73,3 +75,19 @@ jobs:
         with:
           name: system-report
           path: reports/*.txt
+      
+      
+      - name: Push changes (with retry)
+        run: |
+          n=0
+          unitil [ $n -ge 3]
+          do
+            git push origin main && break
+            n=$((n+1))
+            echo "Retry #$n in 5 seconds..."
+            sleep 5
+          done
+    
+    concurrency:
+      group: daily-report
+      cancel-in-progress: true
