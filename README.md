@@ -1,5 +1,7 @@
 # DevOps Daily Automation Project
 
+![Daily System Report](https://github.com/iamtamil0/devops-daily-automation/actions/workflows/daily-report.yml/badge.svg)
+
 This project automatically generates a **daily system report**, commits it to GitHub, and pushes it using **GitHub Actions**.
 it is a simple but poerfull automation project designed to showcase DevOps CI/CD, scripting, adn GitHub workflow skills.
 
@@ -12,7 +14,6 @@ it is a simple but poerfull automation project designed to showcase DevOps CI/CD
 - Origanized folder structure
 - Beginner-froendly DevOps workflows
 - Designed fully in **GitHub Codespace**
-_____
 
 ## 📦 Project Structure
 

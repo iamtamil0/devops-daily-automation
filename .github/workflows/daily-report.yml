@@ -67,3 +67,9 @@ jobs:
             \"text\": *Devops Automation Report*\nStatus: *$STATUS*\nRepository: ${{ github.repository }}\nWorkflws: ${{ github.workflow }}\nRun ID: ${{ github.run_id }}\nTriggered at: $(date)\"
           }" \
           ${{ secrets.SLACK_WEBHOOK-URL }}
+
+      - name: Upload Report as Artifact
+        uses: action/upload-artifact@v3
+        with:
+          name: system-report
+          path: reports/*.txt
