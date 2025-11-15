@@ -73,7 +73,8 @@ _Add a screenshot of your GitHub Actions run here later._
 
 ## 🧑‍💻 Author  
 
-**Tamilmani**  
+**TamilmaniN**  
 
 GitHub: https://github.com/iamtamil0 
+
 ![CI Status](https://github.com/iamtamil0/devops-daily-automation/actions/workflows/ci.yml/badge.svg)
