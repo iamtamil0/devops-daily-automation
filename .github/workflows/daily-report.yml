@@ -1,5 +1,8 @@
 name: Daily System Report
 
+permissions:
+  contents: write
+  
 on:
   schedule:
     - cron: "0 3 * * *"   # Runs daily at 3 AM UTC
