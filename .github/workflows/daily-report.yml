@@ -32,3 +32,38 @@ jobs:
       - name: Push changes
         run: |
           git push origin main
+      
+      - name: Start Workflow Log
+        run: echo "=== Start Workflow Started at $(date) ==="
+
+      - name: Run the daily report script
+        run: |
+          echo "Running script at $(date)"
+          bash script/daily_report.sh
+
+      - name: Commit report
+        run: |
+          echo "Committing report at $(date)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          git commit -m "Daily report generated on $(date)" || echo "No changes to commit"
+          
+      - name: push changes
+        run: |
+          echo "Pushing updates at $(date)"
+          git push origin main
+
+      - name: Send Slack Notification
+        if: always()
+        run: |
+          STATUS="Success"
+          if [ '${{ job.status}}' != 'success']; then
+            STATUS="Failed"
+          fi
+
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{
+            \"text\": *Devops Automation Report*\nStatus: *$STATUS*\nRepository: ${{ github.repository }}\nWorkflws: ${{ github.workflow }}\nRun ID: ${{ github.run_id }}\nTriggered at: $(date)\"
+          }" \
+          ${{ secrets.SLACK_WEBHOOK-URL }}
