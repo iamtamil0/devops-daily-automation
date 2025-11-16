@@ -5,7 +5,7 @@ permissions:
 
 on:
   schedule:
-    - cron: "0 3 * * *"   # Runs daily at 3 AM UTC
+    - cron: "0 3 * * *"
   workflow_dispatch:
 
 jobs:
@@ -13,22 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      # Checkout code
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Make script executable
       - name: Make daily report script executable
         run: chmod +x script/daily_report.sh
 
-      # Run report script
       - name: Run report script
         run: bash script/daily_report.sh
 
-      # Commit changes
       - name: Commit report
         run: |
           git config user.name "github-actions[bot]"
@@ -36,11 +31,9 @@ jobs:
           git add reports/
           git commit -m "Daily report generated on $(date)" || echo "No changes to commit"
 
-      # Push changes
       - name: Push changes
         run: git push origin main
 
-      # Slack Notification
       - name: Send Slack Notification
         if: always()
         run: |
@@ -56,9 +49,8 @@ jobs:
           }" \
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      # Upload Report
       - name: Upload Report as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: system-report
           path: reports/*.txt
