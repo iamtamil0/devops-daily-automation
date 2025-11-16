@@ -1,65 +1,18 @@
 #!/bin/bash
 
-# ADD Error Handing
 set -euo pipefail
-# Set -e -> stop script immediate on error 
-# Set -u -> error if variable is missing
-# Set -o pipefail -. detect errors inside pipelines 
 trap 'echo "❌ Error occurred in script at line $LINENO"' ERR
-# trap -. prints the exact line number of the error
-
-#Improve Script Loggin for Failures
-
-echo "Script complete successfully at $(date)" | tee -a "$LOG_FILE"
-#Now Logs record both failure & Success
 
 # ================================
 # Daily Automation System Report
 # ================================
 
-DATE=$(date +"%Y-%m-%d_%H-%M")
+DATE=$(date +"%Y-%m-%d_%H-%M-%S")
 LOGFILE="logs/report_$DATE.log"
 
-DATE=$(date +"%Y-%m-%d_%H-%M-%S")
-OUTPUT_FILE="reports/system_report_$DATE.txt"
+# Create logs folder if missing
+mkdir -p logs
+mkdir -p reports
 
-echo "Generating system report..."
-echo "----------------------------------" > $OUTPUT_FILE
-echo "📅 Report Generated On: $(date)" >> $OUTPUT_FILE
-echo "----------------------------------" >> $OUTPUT_FILE
-
-# CPU Info
-echo "" >> $OUTPUT_FILE
-echo "🖥️ CPU Usage:" >> $OUTPUT_FILE
-top -bn1 | grep "Cpu(s)" >> $OUTPUT_FILE
-
-# Memory
-echo "" >> $OUTPUT_FILE
-echo "🧠 Memory Usage:" >> $OUTPUT_FILE
-free -h >> $OUTPUT_FILE
-
-# Disk
-echo "" >> $OUTPUT_FILE
-echo "💽 Disk Usage:" >> $OUTPUT_FILE
-df -h >> $OUTPUT_FILE
-
-# Network
-echo "" >> $OUTPUT_FILE
-echo "🌐 Network Info:" >> $OUTPUT_FILE
-ip addr show >> $OUTPUT_FILE
-
-# Finished
-echo "" >> $OUTPUT_FILE
-echo "Report Saved Successfully: $OUTPUT_FILE"
-echo "Done!"
-
-echo "Daily DevOps Task Report - $DATE" >> "$LOGFILE"
-echo "--------------------------------" >> "$LOGFILE"
-echo "System Time: $(date)" >> "$LOGFILE"
-echo "User: $(whoami)" >> "$LOGFILE"
-echo "Running inside GitHub Codespaces" >> "$LOGFILE"
-echo "--------------------------------" >> "$LOGFILE"
-
-git add logs
-git commit -m "Daily report - $DATE"
-git push
+# Correct usage of LOGFILE instead of LOG_FILE
+echo "Script complete successfully at $(date)" | tee -a "$LOGFILE"
