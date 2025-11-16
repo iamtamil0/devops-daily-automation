@@ -19,7 +19,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Make daily report script executable
-        run: chmod +x script/daily-report.sh
+        run: chmod +x script/daily_report.sh
 
       - name: Run report script
         run: bash script/daily_report.sh
