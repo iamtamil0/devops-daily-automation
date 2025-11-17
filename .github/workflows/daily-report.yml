@@ -9,11 +9,9 @@ on:
     - cron: "0 3 * * *"
   workflow_dispatch:
 
-jobs:
-  build:
-  
-  Docker-job:
+ Docker-job:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,6 +34,9 @@ jobs:
           name: docker-report
           path: reports/
 
+jobs:
+  build:
+  
     strategy:
       matrix:
         os: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest]
