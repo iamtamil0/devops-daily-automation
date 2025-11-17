@@ -11,6 +11,32 @@ on:
 
 jobs:
   build:
+  
+  Docker-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Build Docker Image
+       run: |
+          docker build -t dailt-report .
+
+      - name: Run inside container
+        run: |
+          docker run --name report-run daily-report
+
+      - name: Copy report from container
+        run: |
+          docker cp report-run:/app/reports ./reports
+
+      - name: Upload Docker Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-report
+          path: reports/
+          
     strategy:
       matrix:
         os: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest]

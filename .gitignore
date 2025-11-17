@@ -34,7 +34,7 @@ logs/
 # Allow reports folder
 reports/*
 !reports/
-!reports/latest_report.txt
+# reports/latest_report.txt
 
 # ignore compiled files
 *.out
