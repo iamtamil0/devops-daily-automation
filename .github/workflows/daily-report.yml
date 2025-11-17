@@ -9,16 +9,18 @@ on:
     - cron: "0 3 * * *"
   workflow_dispatch:
 
- Docker-job:
+jobs:
+
+  docker-job:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Build Docker Image
-       run: |
-          docker build -t dailt-report .
+        run: |
+          docker build -t daily-report .
 
       - name: Run inside container
         run: |
@@ -34,9 +36,8 @@ on:
           name: docker-report
           path: reports/
 
-jobs:
   build:
-  
+
     strategy:
       matrix:
         os: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest]
@@ -46,10 +47,7 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-        
-      # Make script executable
+
       - name: Make daily report script executable
         run: chmod +x script/daily_report.sh
 
@@ -75,12 +73,12 @@ jobs:
       - name: Push changes
         run: git push origin main
 
-      - name: Upload Report
-        run: actions/upload-artifact@v4
+      - name: Upload Report as Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: system-report-${{ matrix.os }}
           path: reports/*.txt
-      
+
       - name: List repo files
         run: ls -R
 
@@ -98,12 +96,6 @@ jobs:
             \"text\": \"*DevOps Automation Report*\nStatus: $STATUS\nRepository: ${{ github.repository }}\nWorkflow: ${{ github.workflow }}\nRun ID: ${{ github.run_id }}\nTriggered at: $(date)\"
           }" \
           ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      - name: Upload Report as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: system-report
-          path: reports/*.txt
 
     concurrency:
       group: daily-report
