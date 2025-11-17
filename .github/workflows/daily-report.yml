@@ -14,7 +14,6 @@ jobs:
   
   Docker-job:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,7 +35,7 @@ jobs:
         with:
           name: docker-report
           path: reports/
-          
+
     strategy:
       matrix:
         os: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest]
