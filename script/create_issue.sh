@@ -1,16 +1,13 @@
 #!/bin/bash
 
-ISSUE_TITLE="System Alert: Error detected on $(date '+%Y-%m-%d')"
-ISSUE_BODY=$(cat reports/latest_report.txt)
+REPO="${GITHUB_REPOSITORY}"
+TOKEN="${GITHUB_TOKEN}"
 
-echo "Creating GitHub Issue..."
+TITLE="⚠ System Error Detected"
+BODY="An error was found in the daily report generated on $(date). Please check the logs."
 
 curl -X post \
-    -H "Authorization: token $GITHUB_TOKEN" \
-    -H "Accept: Application/vnd.github+json" \
-    https://api.github.come/repos/${GITHUB_REPOSITORY}/issues \
-    -d "{
-        \"title\": \"$ISSUE_TITLE\",
-        \"body\": \"$ISSUE_BODY\",
-        \"labels\": [\"system-alert\", \"automation\"]
-    }"
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer $TOKEN" \
+    https://api.github.com/repos/${REPO}/issues \
+    -d "{\"title\": \"${TITLE}\", \"body\": \"${BODY}\"}"
