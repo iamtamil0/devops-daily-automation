@@ -1,0 +1,10 @@
+name: Test Docker Login
+
+on: workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Login
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_IAMTAMIL) }}" --password-stdin
