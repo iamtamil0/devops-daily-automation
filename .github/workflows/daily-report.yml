@@ -98,5 +98,5 @@ jobs:
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
     concurrency:
-      group: daily-report
-      cancel-in-progress: true
+      group: daily-report-${{ matrix.os }}
+      cancel-in-progress: false
