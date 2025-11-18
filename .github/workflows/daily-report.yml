@@ -43,8 +43,29 @@ jobs:
     needs: docker-job
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_IAMTAMIL0 }}" --password-stdin
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_IAMTAMIL0 }}/devops=daily-report:latest .
+
+      - name: Tag Image with Timestamp
+        run: |
+          TAG=$(date +'%Y%m%d-%H%M%S')
+          docker tag \
+            ${{ secrets.DOCKER_IAMTAMIL0 }}/devops=daily-report:latest \
+            ${{ secrets.DOCKER_IAMTAMIL0 }}/devops=daily-report:$TAG
+          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Push Image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKER_IAMTAMIL0 }}/devops=daily-report:latest
+          docker push ${{ secrets.DOCKER_IAMTAMIL0 }}/devops=daily-report:${{ env.IMAGE_TAG }}
 
       - name: Make daily report script executable
         run: chmod +x script/daily_report.sh
