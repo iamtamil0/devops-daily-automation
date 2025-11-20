@@ -18,23 +18,19 @@ it is a simple but poerfull automation project designed to showcase DevOps CI/CD
 ## 📦 Project Structure
 
 devops-daily-automation/
-
-├── scripts/
-
-│   └── daily_report.sh
-
-├── reports/
-
+├── script/
+│   ├── daily_report.sh
+│   ├── health_check.sh
+├── tests/
+│   └── test_report.sh
+├── alerts/
 ├── logs/
-
-├── .github/
-
-│   └── workflows/
-
-│       └── daily-report.yml
-
-└── README.md
-
+├── reports/
+├── Dockerfile
+└── .github/workflows/
+    ├── build.yml
+    ├── test.yml
+    └── health-check.yml
 ---
 
 

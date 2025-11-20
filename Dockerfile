@@ -16,3 +16,6 @@ COPY script/daily_report.sh /app/daily_report.sh
 RUN chmod +x /app/daily_report.sh
 
 CMD ["/bin/bash", "/app/daily_report.sh"]
+
+COPY script/health_check.sh /app/health_check.sh
+RUN chmod +x /app/health_check.sh
