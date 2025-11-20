@@ -21,18 +21,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Build Docker image (local tag)
+      - name: Build Docker image
         run: docker build -t daily-report:ci .
 
-      - name: Save image to file (optional - speeds debugging)
-        run: docker image inspect daily-report:ci || true
-
-      - name: Upload docker build artifact (optional)
-        uses: actions/upload-artifact@v4
-        with:
-          name: docker-image-metadata
-          path: |
-            $(pwd)/  # optional, keep lightweight
+      - name: Inspect image
+        run: docker docker -t daily-report:commit
 
   # Push to Docker Hub (depends on build)
   push-docker:
@@ -49,28 +42,21 @@ jobs:
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-      - name: Build Docker image for push
+      - name: Build Docker for Docker Hub
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:latest .
 
-      - name: Tag image with timestamp
+      - name: Tag with timestamp
         run: |
           TAG=$(date +'%Y%m%d-%H%M%S')
           docker tag ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:latest \
                      ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:$TAG
           echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
 
-      - name: Push images (with retry)
+      - name: Push images
         run: |
-          n=0
-          until [ $n -ge 3 ]
-          do
-            docker push ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:latest && \
-            docker push ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:${{ env.IMAGE_TAG }} && break
-            n=$((n+1))
-            echo "Retry #$n in 5s..."
-            sleep 5
-          done
+            docker push ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:latest
+            docker push ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:${{ env.IMAGE_TAG }}
 
   # Run report and commit reports (depends on push)
   run-and-commit:
@@ -88,7 +74,7 @@ jobs:
       - name: Run report script
         run: bash script/daily_report.sh
 
-      - name: Commit and push reports (if any)
+      - name: Commit and push reports 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -96,21 +82,13 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add reports/ || true
           git commit -m "Daily report: $(date +'%Y-%m-%d')" || echo "No changes to commit"
-          # push with retry to avoid transient errors
-          n=0
-          until [ $n -ge 3 ]
-          do
-            git push origin main && break
-            n=$((n+1))
-            echo "Push retry #$n"
-            sleep 5
-          done
+          git push origin main
 
       - name: Upload Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: system-report
-          path: reports/*.txt
+          path: reports/
 
       - name: Notify Slack (if configured)
         if: always()

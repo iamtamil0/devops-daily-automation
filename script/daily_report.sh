@@ -1,18 +1,34 @@
 #!/bin/bash
 
 set -euo pipefail
-trap 'echo "❌ Error occurred in script at line $LINENO"' ERR
-
-# ================================
-# Daily Automation System Report
-# ================================
+trap 'echo "❌ Error at line $LINENO"' ERR
 
 DATE=$(date +"%Y-%m-%d_%H-%M-%S")
-LOGFILE="logs/report_$DATE.log"
+LOGFILE="logs/report_$DATE.txt"
 
-# Create logs folder if missing
 mkdir -p logs
 mkdir -p reports
 
-# Correct usage of LOGFILE instead of LOG_FILE
-echo "Script complete successfully at $(date)" | tee -a "$LOGFILE"
+echo "-----------------------" | tee -a "$LOGFILE"
+echo "Hostname: $(hostname)" | tee -a "$LOGFILE"
+echo "Uptime: $(uptime -p)" | tee -a "$LOGFILE"
+echo "Current User: $(whoami)" | tee -a "$LOGFILE"
+
+echo | tee -a "$LOGFILE"
+echo "📂 DISK USAGE" | tee -a "$LOGFILE"
+echo "-----------------------" | tee -a "$LOGFILE"
+df -h | tee -a "$LOGFILE"
+
+echo | tee -a "$LOGFILE"
+echo "🧠 MEMORY USAGE" | tee -a "$LOGFILE"
+echo "-----------------------" | tee -a "$LOGFILE"
+free -h | tee -a "$LOGFILE"
+
+echo | tee -a "$LOGFILE"
+echo "🌐 NETWORK INFO" | tee -a "$LOGFILE"
+echo "-----------------------" | tee -a "$LOGFILE"
+ip addr | tee -a "$LOGFILE"
+
+cp "$LOGFILE" "reports/report_$DATE.txt"
+
+echo "✔ Report generated successfully"
