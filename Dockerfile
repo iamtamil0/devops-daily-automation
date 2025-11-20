@@ -1,13 +1,24 @@
 FROM ubuntu:22.04
 
-# Install runtime tools (keep minimal)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    bash iputils-ping net-tools procps curl git \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt install -y \
+    bash \
+    iputils-ping \
+    net-tools \
+    procps \
+    curl \
+    git
 
+# create directory
+RUN mkdir -p /app
+
+# set working directory
 WORKDIR /app
+
+# copy script
 COPY script/daily_report.sh /app/daily_report.sh
 
+# make it executable
 RUN chmod +x /app/daily_report.sh
 
-CMD ["/app/daily_report.sh"]git 
+# correct CMD
+CMD ["/bin/bash", "/app/daily_report.sh"]
