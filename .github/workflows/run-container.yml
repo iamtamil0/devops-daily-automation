@@ -1,0 +1,46 @@
+name: Run Daily Report Container
+
+on:
+  schedule:
+    - cron: "0 4 * * *"  # run daily at 04:00 UTC
+  workflow_dispatch:
+
+jobs:
+  run-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+      - name: Pull Image from Docker Hub
+        run: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/daily-report:latest
+
+      - name: Run Container & generate report
+        run: |
+          mkdir -p reports
+          docker run --rm ${{ secrets.DOCKER_USERNAME }}/daily-report:latest | tee reports/report_$(date +"%Y-%m-%d_%H-%M-%S").txt
+
+      - name: Upload Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-system-report
+          path: reports/*.txt
+
+      - name: Commit Report Back to Repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          git commit -m "Daily Report: $(date)" || echo "No new changes"
+          git push
