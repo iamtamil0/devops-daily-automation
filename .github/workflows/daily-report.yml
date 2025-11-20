@@ -1,100 +1,58 @@
 name: Daily System Report (Build & Push Docker)
 
-permissions:
-  contents: write
-  issues: write
-
 on:
-  schedule:
-    - cron: "0 03 * * *"   # 03:00 UTC daily — edit to your desired time
   workflow_dispatch:
 
-concurrency:
-  group: daily-report
-  cancel-in-progress: false
-
 jobs:
-  # Build image (independent job)
+
   docker-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Build Docker image
-        run: docker build -t daily-report:ci .
+        run: docker build -t daily-report:latest .
 
-      - name: Inspect image
-        run: docker docker -t daily-report:commit
-
-  # Push to Docker Hub (depends on build)
   push-docker:
-    needs: docker-build
     runs-on: ubuntu-latest
+    needs: docker-build
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Log in to Docker Hub
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: |
-          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Build Docker for Docker Hub
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:latest .
+      - name: Build image for push
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/daily-report:latest .
 
-      - name: Tag with timestamp
+      - name: Tag image with timestamp
         run: |
-          TAG=$(date +'%Y%m%d-%H%M%S')
-          docker tag ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:latest \
-                     ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:$TAG
-          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
+          TAG=$(date +'%Y%m%d%H%M')
+          docker tag ${{ secrets.DOCKER_USERNAME }}/daily-report:latest ${{ secrets.DOCKER_USERNAME }}/daily-report:$TAG
+          echo "TAG=$TAG" >> $GITHUB_ENV
 
-      - name: Push images
+      - name: Push images (with retry)
         run: |
-            docker push ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:latest
-            docker push ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:${{ env.IMAGE_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/daily-report:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/daily-report:${TAG}
 
-  # Run report and commit reports (depends on push)
   run-and-commit:
-    needs: push-docker
     runs-on: ubuntu-latest
+    needs: push-docker
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/checkout@v3
 
-      - name: Make report script executable
-        run: chmod +x script/daily_report.sh
-
-      - name: Run report script
-        run: bash script/daily_report.sh
-
-      - name: Commit and push reports 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Docker Image
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add reports/ || true
-          git commit -m "Daily report: $(date +'%Y-%m-%d')" || echo "No changes to commit"
-          git push origin main
+          docker run --rm --name daily-run ${{ secrets.DOCKER_USERNAME }}/daily-report:latest
 
-      - name: Upload Report Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: system-report
-          path: reports/
-
-      - name: Notify Slack (if configured)
-        if: always()
+      - name: Commit updated report
         run: |
-          STATUS="Success ✅"
-          if [ "${{ job.status }}" != "success" ]; then STATUS="Failed ❌"; fi
-          curl -X POST -H 'Content-type: application/json' \
-            --data "{\"text\":\"DevOps Report — $STATUS\nRepo: ${{ github.repository }}\nRun: ${{ github.run_id }}\"}" \
-            ${{ secrets.SLACK_WEBHOOK_URL }}
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add .
+          git commit -m "Auto update: Daily report $(date)"
+          git push
