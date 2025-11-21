@@ -29,3 +29,10 @@ jobs:
         with:
           name: health-check-logs
           path: result.txt
+      - name: Send Slack alert on failure
+        if: failure()
+        run: |
+          message="⚠️ Health Check FAILED for daily-report container on $(date)"
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{\"text\":\"$message\"}" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
