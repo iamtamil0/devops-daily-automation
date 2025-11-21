@@ -1,0 +1,31 @@
+name: Container Health Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"   # Runs every 6 hours
+
+jobs:
+  health_check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: docker build -t daily-report:latest .
+
+      - name: Run health check
+        run: |
+          docker run --name test-container daily-report:latest /app/health_check.sh || echo "FAILED" > result.txt
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: health-check-logs
+          path: result.txt

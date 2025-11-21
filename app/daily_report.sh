@@ -1,38 +1,34 @@
 #!/bin/bash
 
-# Creating Foldersif missing
-mkdir -p reports
+set -euo pipefail
+trap 'echo "❌ Error at line $LINENO"' ERR
+
+DATE=$(date +"%Y-%m-%d_%H-%M-%S")
+LOGFILE="logs/report_$DATE.txt"
+
 mkdir -p logs
+mkdir -p reports
 
-LOG_FILE="log/run_$(date +%Y-%m-%d_*%H-%M-%S).log"
-REPORT_FILE="reports/system_report_$(date +%Y-%m-%d_%H-%m-%s).txt"
+echo "-----------------------" | tee -a "$LOGFILE"
+echo "Hostname: $(hostname)" | tee -a "$LOGFILE"
+echo "Uptime: $(uptime -p)" | tee -a "$LOGFILE"
+echo "Current User: $(whoami)" | tee -a "$LOGFILE"
 
-echo "Generating system report..." | tee -a "$LOG_FILE"
+echo | tee -a "$LOGFILE"
+echo "📂 DISK USAGE" | tee -a "$LOGFILE"
+echo "-----------------------" | tee -a "$LOGFILE"
+df -h | tee -a "$LOGFILE"
 
-{
-    echo"===== System Report ===="
-    echo "Date: $(date)"
-    echo "Hostname: $(hostname)"
+echo | tee -a "$LOGFILE"
+echo "🧠 MEMORY USAGE" | tee -a "$LOGFILE"
+echo "-----------------------" | tee -a "$LOGFILE"
+free -h | tee -a "$LOGFILE"
 
-    echo "===== Disk Usage ====="
-    df -h
-    echo
+echo | tee -a "$LOGFILE"
+echo "🌐 NETWORK INFO" | tee -a "$LOGFILE"
+echo "-----------------------" | tee -a "$LOGFILE"
+ip addr | tee -a "$LOGFILE"
 
-    echo "===== CPU Load ====="
-    uptime
-    echo
+cp "$LOGFILE" "reports/report_$DATE.txt"
 
-    echo "===== Last Logged-in Users ====="
-    last | head
-    echo
-} > "$REPORT_FILE"
-
-echo "Report Saved Successfully: $REPORT_FILE" | tee -a "$LOG_FILE"
-
-# Auto=cleanup: delete reports older than 7 days
-find reports/ -type f -mtime +7 -delete
-find logs/ -type f -mtime +7 -delete
-
-echo "old reports & logs cleaned (older then 7 days)" | tee -a "$LOG_FILE"
-
-echo "Done!"
+echo "✔ Report generated successfully"

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "Running health check..."
-ping -c 1 
 set -euo pipefail
 
 DATE=$(date +"%Y-%m-%d %H:%M:%S")
