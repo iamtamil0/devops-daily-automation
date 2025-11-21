@@ -1,7 +1,15 @@
 #!/bin/bash
 
 echo "Running health check..."
-ping -c 1 
+ping -c 1 google.com > dev/null 2>&1
+
+if [ $? -eq 0 ]; then
+  echo "HEALTH CHECK PASSED: Internet is reachable."
+else
+  echo "HEALTH CHECK FAILED: Internet is not reachable."
+  exit 1
+fi
+
 set -euo pipefail
 
 DATE=$(date +"%Y-%m-%d %H:%M:%S")
