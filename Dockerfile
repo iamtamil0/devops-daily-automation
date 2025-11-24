@@ -12,8 +12,9 @@ RUN apt update && apt install -y \
 WORKDIR /app
 
 # Copy scripts correctly into /app
-COPY script/daily_report.sh /app/daily_report.sh
-COPY script/health_check.sh /app/health_check.sh
+COPY ../script/daily_report.sh /app/daily_report.sh
+COPY ../script/health_check.sh /app/health_check.sh
+COPY ../script/*.sh /app/
 
 # Make both executable
 RUN chmod +x /app/daily_report.sh \
