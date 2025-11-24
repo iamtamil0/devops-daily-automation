@@ -2,10 +2,8 @@ name: Daily System Report (Build & Push Docker)
 
 on:
   schedule:
-    - cron: "30 3 * * *" # 9:00 AM IST daily
+    - cron: "30 3 * * *"   # 9:00 AM IST daily
   workflow_dispatch:
-
-on:
   push:
     paths:
       - "script/**"
@@ -17,12 +15,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ------------------------------
       - name: Checkout repo
         uses: actions/checkout@v4
 
       # ------------------------------
-      # DOCKER LOGIN (Corrected)
+      # DOCKER LOGIN
       # ------------------------------
       - name: Login to Docker Hub
         run: |
@@ -30,14 +27,14 @@ jobs:
           docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       # ------------------------------
-      # BUILD IMAGE (Correct path)
+      # BUILD IMAGE
       # ------------------------------
       - name: Build Docker image
         run: |
           docker build -t daily-report:latest -f docker/Dockerfile .
 
       # ------------------------------
-      # TAG IMAGES
+      # TAG IMAGE
       # ------------------------------
       - name: Tag Docker images
         run: |
@@ -54,14 +51,20 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/daily-report:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/daily-report:${TAG}
 
+      # ------------------------------
+      # CREATE ISSUE IF ERROR FOUND
+      # ------------------------------
       - name: Create GitHub Issue on Failure
-        if: contains(github.workspace, 'ERROR') || container(github.workspace, 'FAILED')
+        if: failure()
         uses: peter-evans/create-issue-from-file@v4
         with:
           title: "System Error Detected in Daily Report"
           content-filepath: ./reports/latest_report.txt
           labels: error, automated
 
+      # ------------------------------
+      # SEND EMAIL (optional)
+      # ------------------------------
       - name: Send Report Email
         uses: dawidd6/action-send-mail@v3
         with:
@@ -79,12 +82,11 @@ jobs:
     needs: build-and-push
 
     steps:
-      # ------------------------------
       - name: Checkout repo
         uses: actions/checkout@v4
 
       # ------------------------------
-      # RUN CONTAINER AND GENERATE REPORT
+      # RUN CONTAINER
       # ------------------------------
       - name: Run report generator container
         run: |
@@ -93,15 +95,12 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/daily-report:latest
 
       # ------------------------------
-      # COMMIT & PUSH REPORT
+      # COMMIT REPORT
       # ------------------------------
       - name: Commit daily report
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-
           git add .
-
           git commit -m "Auto update: Daily system report $(date)" || echo "No changes to commit"
-
           git push
