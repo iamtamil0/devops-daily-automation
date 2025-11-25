@@ -2,6 +2,15 @@
 
 ![Daily System Report](https://github.com/iamtamil0/devops-daily-automation/actions/workflows/daily-report.yml/badge.svg)
 
+![Daily Workflow Status](https://github.com/iamtamil0/your-repo/actions/workflows/daily-system-update.yml/badge.svg)
+
+![Docker Pulls](https://img.shields.io/docker/pulls/iamtamil0/devops-daily-report)
+
+![Docker Image Version](https://img.shields.io/docker/v/iamtamil0/devops-daily-report)
+
+![Docker Image Size](https://img.shields.io/docker/image-size/iamtamil0/devops-daily-report)
+
+
 This project automatically generates a **daily system report**, commits it to GitHub, and pushes it using **GitHub Actions**.
 it is a simple but poerfull automation project designed to showcase DevOps CI/CD, scripting, adn GitHub workflow skills.
 
