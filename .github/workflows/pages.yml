@@ -1,0 +1,24 @@
+name: Publish Pages
+
+on:
+    push:
+        branches:
+        - main  # Set a branch to deploy from
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Setup Node (optional if you build static site using JS tools)
+          uses: actions/setup-node@v4
+          with:
+            node-version: '18'
+
+        - name: Deploy to gh-pages
+          uses: peaceiris/actions-gh-pages@v4
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./docs
