@@ -20,7 +20,7 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Build Docker Image (CI Build)
@@ -131,11 +131,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add reports/ || true
-          git commit -m "Daily Report: $(date +'%Y-%m-%d')" || echo "No changes to commit"
-          git push origin main
+          git config --local user.name "github-actions@github.com"
+          git config --local user.email "GitHub Actions"
+          git add report.txt
+          git commit -m "Daily Auto Report $(date)" || echo "No changes to commit"
+          git push origin main --force
 
       - name: Upload Report Artifact
         uses: actions/upload-artifact@v4
