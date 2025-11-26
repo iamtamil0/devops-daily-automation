@@ -1,32 +1,12 @@
 name: Docker Token Tester
 
 on:
-  workflow_dispatch:   # Run manually
+  workflow_dispatch:
 
 jobs:
-  docker-token-test:
+  test-token:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check Docker Token Exists
+      - name: Test Docker Login
         run: |
-          if [ -z "${{ secrets.DOCKER_USERNAME }}" ]; then
-            echo "❌ Missing: DOCKER_USERNAME"
-            exit 1
-          fi
-
-          if [ -z "${{ secrets.DOCKER_PASSWORD }}" ]; then
-            echo "❌ Missing: DOCKER_PASSWORD"
-            exit 1
-          fi
-
-          echo "✔ Secrets found"
-
-      - name: Attempt Docker Login
-        run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | \
-          docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      - name: Print Login Status
-        run: |
-          echo "✔ Docker token is valid"
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin

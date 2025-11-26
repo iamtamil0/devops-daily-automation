@@ -2,7 +2,7 @@
 
 ![Daily System Report](https://github.com/iamtamil0/devops-daily-automation/actions/workflows/daily-report.yml/badge.svg)
 
-![Daily Workflow Status](https://github.com/iamtamil0/your-repo/actions/workflows/daily-system-update.yml/badge.svg)
+![Daily Workflow Status](https://github.com/iamtamil0/devops-daily-automation/actions/workflows/daily-report.yml/badge.svg)
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/iamtamil0/devops-daily-report)
 
