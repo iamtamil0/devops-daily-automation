@@ -14,6 +14,20 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-daily-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install packages
+        uses: sudo apt-get update && sudo apt-get install -y neofetch
+
+      - name: Generate system report
+        run: |
+          echo "Daily System Report $(date)" > report.txt
+          neofetch >> report.txt
   # ----------------------------------------------------
   # JOB 1: Build Image
   # ----------------------------------------------------
