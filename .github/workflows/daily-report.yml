@@ -1,12 +1,12 @@
 name: Daily System Report (Build & Push Docker)
 
 permissions:
-  contents: write # Needed for git push
-  issues: write  # If you add issue creation later
+  contents: write
+  issues: write
 
 on:
   schedule:
-    - cron: "0 03 * * *"   # Run daily at 03:00 UTC (8:39 AM IST  )
+    - cron: "0 03 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -16,44 +16,38 @@ concurrency:
 jobs:
   run-daily-report:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install packages
-        uses: |
-            sudo apt-get update
-            sudo apt-get install -y neofetch
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y neofetch
 
       - name: Generate system report
         run: |
           echo "Daily System Report $(date)" > report.txt
           neofetch >> report.txt
-  # ----------------------------------------------------
-  # JOB 1: Build Image
-  # ----------------------------------------------------
+
   docker-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Docker Image (CI Build)
+      - name: Build Docker Image
         run: docker build -t daily-report:ci .
 
       - name: Inspect Image
         run: docker images | grep daily-report
 
-  # ----------------------------------------------------
-  # JOB 2: Push Image to Docker Hub
-  # ----------------------------------------------------
   push-docker:
     needs: docker-build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
@@ -64,7 +58,7 @@ jobs:
       - name: Build Image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:latest .
 
-      - name: Tag with Timestamp
+      - name: Tag with timestamp
         run: |
           TAG=$(date +'%Y%m%d-%H%M%S')
           echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
@@ -76,116 +70,65 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-daily-report:${{ env.IMAGE_TAG }}
 
-  # ------------------------------
-  # CREATE ISSUE ON FAILURE
-  # ------------------------------
-      - name: Notify Docker Push Completed (Telegram)
+      - name: Telegram Notify Success
         run: |
-          MSG:"🐳 *Docker Push Successful!*\nImage: ${{ secrets.DOCKER_USERNAME }}/devops-daily-report\nTag: ${{ env.IMAGE_TAG }}"
+          MSG="🐳 Docker Image Uploaded Successfully! Tag: ${{ env.IMAGE_TAG }}"
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d parse_mode="Markdown" \
             -d text="$MSG"
 
-  # ------------------------------
-  # CREATE ISSUE ON FAILURE
-  # ------------------------------
-      - name: Create GitHub Issue on Failure
-        if: failure()
-        uses: peter-evans/create-issue-from-file@v4
-        with:
-          title: "System Error Detected in Daily Report"
-          content-filepath: ./reports/latest_report.txt
-          labels: error, automated
-
-  # ------------------------------
-  # SEND EMAIL (optional)
-  # ------------------------------
       - name: Send Report Email
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.example.com
-          server_port: 587
+          server_address: smtp.gmail.com
+          server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "Daily System Report"
+          subject: "Daily System Report - $(date +'%Y-%m-%d')"
+          body: |
+            Hello,
+
+            The daily system report has been generated and the Docker image has been successfully pushed.
+
+            Best regards,
+            Your Automation Bot
           to: "ntamilmanin@gmail.com"
           from: "GitHub Actions Bot"
-          attachments: ./reports/latest_report.txt
+          attachements: .reports/latest_report.txt
 
-  # ----------------------------------------------------
-  # Docker Push Success Message
-  # ----------------------------------------------------
-
-      - name: Docker Push Success
-        run: |
-          MSG:"🐳 Docker Image Pushed Successfully\nRepository: ${{ secrets.DOCKER_USERNAME }}/devops-daily-report"
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
-            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d text="$MSG"
-
-  # ----------------------------------------------------
-  # JOB 3: Run Report Script + Commit Output
-  # ----------------------------------------------------
   run-and-commit:
     needs: push-docker
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Make Report Script Executable
+      - name: Make script executable
         run: chmod +x script/daily_report.sh
 
-      - name: Run Report Script
+      - name: Run report script
         run: bash script/daily_report.sh
 
-      - name: Commit and Push Reports
+      - name: Commit and Push Report
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --local user.name "github-actions@github.com"
-          git config --local user.email "GitHub Actions"
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add report.txt
-          git commit -m "Daily Auto Report $(date)" || echo "No changes to commit"
-          git push origin main --force
+          git commit -m "Daily Auto Report $(date)" || echo "No changes"
+          git push origin main
 
-      - name: Upload Report Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: system-report
-          path: reports/
-
-  # ----------------------------------------------------
-  # SEND TELEGRAM MESSAGE (optional)
-  # ----------------------------------------------------
-      - name: Send Telegram Notification
-        if: always()
-        run: |
-          STATUS="${{ job.status }}"
-          TEXT="🔔 *DevOps Daily Report*\n\n*Status:* ${STATUS}\n*Repo:* ${{ github.repository }}\n*Run ID:* ${{ github.run_id }}"
-
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
-            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d parse_mode="Markdown" \
-            -d text="${TEXT}"
-
-  # ----------------------------------------------------
-  # Workflow Failure Natification
-  # ----------------------------------------------------
   failure-notify:
     needs: [docker-build, push-docker, run-and-commit]
     runs-on: ubuntu-latest
     if: failure()
-
     steps:
-      - name: Send Failure Alert to Telegram
+      - name: Telegram Failure Alert
         run: |
-          MSG="❌ Workflow Failed for Run ID: ${{ github.run_id }}"
-          curl -s -X POST \
-            https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+          MSG="❌ Workflow Failed. Run ID: ${{ github.run_id }}"
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d text="$MSG"
