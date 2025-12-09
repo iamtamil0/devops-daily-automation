@@ -37,7 +37,11 @@ DATE=$(date +"%Y-%m-%d_%H-%M-%S")
 LOGFILE="logs/report_$DATE.txt"
 
 mkdir -p logs
-mkdir -p reports
+mkdir -p .reports
+echo "Daily System Report - $(date)" > .reports/latest_report.txt
+neofetch >> .reports/latest_report.txt
+
+echo "Daily System Report - $(date)" > "$REPORT"
 
 echo "-----------------------" | tee -a "$LOGFILE"
 echo "Hostname: $(hostname)" | tee -a "$LOGFILE"
