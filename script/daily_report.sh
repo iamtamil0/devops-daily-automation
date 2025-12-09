@@ -1,68 +1,68 @@
 #!/bin/bash
 
-REPORT="reports/system_report_$(date +"%Y-%m-%d_%H-%M-%S").txt"
+#======================================================
+#  DAILY SYSTEM REPORT SCRIPT (GitHub Actions Safe)
+#======================================================
 
+# Create reports directory (if not exists)
 mkdir -p reports
 
-{
-    echo "======================="
-    echo "   Daily System Report   "
-    echo "   Date: $(date)   "
-    echo "======================="
-    
-    echo -e "\n🖥️ SYSTEM INFO"
-    uname -a
+# Generate filename with timestamp
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+REPORT_FILE="reports/system_report_$TIMESTAMP.txt"
 
-    echo -e "\n📦 DISK USAGE"
-    df -h
+# Start the report
+echo "======================================" > "$REPORT_FILE"
+echo " DAILY SYSTEM REPORT" >> "$REPORT_FILE"
+echo " Generated on: $(date)" >> "$REPORT_FILE"
+echo "======================================" >> "$REPORT_FILE"
+echo "" >> "$REPORT_FILE"
 
-    echo -e "\n🔥 TOP MEMORY & CPU USAGE"
-    top -b -n 1 | head -n 20
 
-    echo -e "\n🐳 DOCKER STATUS (if installed)"
-    docker ps -a || echo "Docker not installed."
+# ---------------------
+# CPU INFORMATION
+# ---------------------
+echo "---- CPU INFORMATION ----" >> "$REPORT_FILE"
+lscpu >> "$REPORT_FILE"
+echo "" >> "$REPORT_FILE"
 
-    echo -e "\n📁 GIT STATUS"
-    git status || echo "Not a git repository."
 
-    echo -e "\n✔ Report generation completed."
-    } > "$REPORT"
+# ---------------------
+# MEMORY INFORMATION
+# ---------------------
+echo "---- MEMORY INFORMATION ----" >> "$REPORT_FILE"
+free -h >> "$REPORT_FILE"
+echo "" >> "$REPORT_FILE"
 
-echo "  Report saved to $REPORT"
 
-set -euo pipefail
-trap 'echo "❌ Error at line $LINENO"' ERR
+# ---------------------
+# DISK USAGE
+# ---------------------
+echo "---- DISK USAGE ----" >> "$REPORT_FILE"
+df -h >> "$REPORT_FILE"
+echo "" >> "$REPORT_FILE"
 
-DATE=$(date +"%Y-%m-%d_%H-%M-%S")
-LOGFILE="logs/report_$DATE.txt"
 
-mkdir -p logs
-mkdir -p .reports
-echo "Daily System Report - $(date)" > .reports/latest_report.txt
-neofetch >> .reports/latest_report.txt
+# ---------------------
+# TOP PROCESSES
+# ---------------------
+echo "---- TOP 10 PROCESSES ----" >> "$REPORT_FILE"
+ps aux --sort=-%cpu | head -n 10 >> "$REPORT_FILE"
+echo "" >> "$REPORT_FILE"
 
-echo "Daily System Report - $(date)" > "$REPORT"
 
-echo "-----------------------" | tee -a "$LOGFILE"
-echo "Hostname: $(hostname)" | tee -a "$LOGFILE"
-echo "Uptime: $(uptime -p)" | tee -a "$LOGFILE"
-echo "Current User: $(whoami)" | tee -a "$LOGFILE"
+# ---------------------
+# SYSTEM UPTIME
+# ---------------------
+echo "---- SYSTEM UPTIME ----" >> "$REPORT_FILE"
+uptime >> "$REPORT_FILE"
+echo "" >> "$REPORT_FILE"
 
-echo | tee -a "$LOGFILE"
-echo "📂 DISK USAGE" | tee -a "$LOGFILE"
-echo "-----------------------" | tee -a "$LOGFILE"
-df -h | tee -a "$LOGFILE"
 
-echo | tee -a "$LOGFILE"
-echo "🧠 MEMORY USAGE" | tee -a "$LOGFILE"
-echo "-----------------------" | tee -a "$LOGFILE"
-free -h | tee -a "$LOGFILE"
+# ---------------------
+# FINAL OUTPUT
+# ---------------------
+echo "Report saved to $REPORT_FILE"
+echo "Copying latest report to reports/latest_report.txt"
 
-echo | tee -a "$LOGFILE"
-echo "🌐 NETWORK INFO" | tee -a "$LOGFILE"
-echo "-----------------------" | tee -a "$LOGFILE"
-ip addr | tee -a "$LOGFILE"
-
-cp "$LOGFILE" "reports/report_$DATE.txt"
-
-echo "✔ Report generated successfully"
+cp "$REPORT_FILE" reports/latest_report.txt
