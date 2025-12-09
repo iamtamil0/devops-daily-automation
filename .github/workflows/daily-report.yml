@@ -6,7 +6,7 @@ permissions:
 
 on:
   schedule:
-    - cron: "0 03 * * *"
+    - cron: "0 /5 * * * *"
   workflow_dispatch:
 
 concurrency:
@@ -27,8 +27,19 @@ jobs:
 
       - name: Generate system report
         run: |
-          echo "Daily System Report $(date)" > report.txt
-          neofetch >> report.txt
+          echo "---- DEBUG: Current directory ----"
+          pwd
+          echo "---- DEBUG: Listing root files ----"
+          ls -a
+
+          echo "---- Creating .reports folder ----"
+          mkdir -p .reports
+
+          echo "---- Creating report file ----"
+          echo "Daily system report generated on $(date)" > .reports/latest_report.txt
+
+          echo "---- DEBUG: Listing .reports ----"
+          ls -a .reports
 
   docker-build:
     runs-on: ubuntu-latest
@@ -102,11 +113,18 @@ jobs:
 
       - name: Commit daily report
         run: |
-            git config --local user.name "github-actions[bot]"
-            git config --local user.email "github-actions[bot]@users.noreply.github.com"
-            git add .reports/latest_report.txt
-            git commit -m "Daily Auto Report $(date)" || echo "No changes"
-            git push origin main
+          echo "---- DEBUG: Checking file exists ----"
+          ls -a .reports || echo "Folder missing"
+          ls -a .reports/latest_report.txt || echo "File missing"
+
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .reports/latest_report.txt
+          git commit -m "Daily Auto Report $(date)" || echo "No changes"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
   failure-notify:
