@@ -92,6 +92,14 @@ jobs:
       - name: Run report script
         run: bash script/daily_report.sh
 
+      - name: Create GitHub Issue on Failure
+        if: failure()
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: "System Error Detected in Daily Report"
+          content-filepath: ./reports/latest_report.txt
+          labels: error, automated
+
       - name: Commit daily report
         run: |
             git config --local user.name "github-actions[bot]"
