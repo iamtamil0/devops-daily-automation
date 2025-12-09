@@ -91,11 +91,6 @@ jobs:
 
       - name: Run report script
         run: bash script/daily_report.sh
-      
-      - name: Generate report
-        run: |
-          mkdir -p .report
-          echo "Daily system report generated on $(date)" > .reports/latest_report.txt
 
       - name: Commit daily report
         run: |
