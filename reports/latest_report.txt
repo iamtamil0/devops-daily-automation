@@ -1,6 +1,6 @@
 ======================================
  DAILY SYSTEM REPORT
- Generated on: Thu Jan 22 04:06:13 UTC 2026
+ Generated on: Fri Jan 23 04:02:31 UTC 2026
 ======================================
 
 ---- CPU INFORMATION ----
@@ -46,15 +46,16 @@ Vulnerability Tsx async abort:        Not affected
 
 ---- MEMORY INFORMATION ----
                total        used        free      shared  buff/cache   available
-Mem:            15Gi       997Mi       9.1Gi        39Mi       5.9Gi        14Gi
+Mem:            15Gi       835Mi       9.3Gi        39Mi       5.9Gi        14Gi
 Swap:          4.0Gi          0B       4.0Gi
 
 ---- DISK USAGE ----
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/root        72G   50G   23G  69% /
 tmpfs           7.9G   84K  7.9G   1% /dev/shm
-tmpfs           3.2G  1.2M  3.2G   1% /run
+tmpfs           3.2G 1008K  3.2G   1% /run
 tmpfs           5.0M     0  5.0M   0% /run/lock
+efivarfs        128M   26K  128M   1% /sys/firmware/efi/efivars
 /dev/sda16      881M   62M  758M   8% /boot
 /dev/sda15      105M  6.2M   99M   6% /boot/efi
 /dev/sdb1        74G  4.1G   66G   6% /mnt
@@ -62,16 +63,16 @@ tmpfs           1.6G   12K  1.6G   1% /run/user/1001
 
 ---- TOP 10 PROCESSES ----
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-runner      1995 63.6  0.6 274350916 110908 ?    Sl   04:06   0:01 /home/runner/actions-runner/cached/bin/Runner.Worker spawnclient 142 145
-runner      1980 28.4  0.5 274263372 93112 ?     Sl   04:06   0:01 /home/runner/actions-runner/cached/bin/Runner.Listener run
-root           1  8.6  0.0  22856 13532 ?        Ss   04:05   0:03 /sbin/init
-root        1514  4.7  0.2 453512 35448 ?        Sl   04:05   0:00 /usr/bin/python3 -u bin/WALinuxAgent-2.15.0.1-py3.12.egg -run-exthandlers
-root          30  1.8  0.0      0     0 ?        S    04:05   0:00 [migration/1]
-root          36  1.8  0.0      0     0 ?        S    04:05   0:00 [migration/3]
-root          24  1.8  0.0      0     0 ?        S    04:05   0:00 [migration/2]
-root          94  1.4  0.0      0     0 ?        I    04:05   0:00 [kworker/u16:6-events_power_efficient]
-root          11  1.3  0.0      0     0 ?        I    04:05   0:00 [kworker/u16:0-writeback]
+runner      2041 57.0  0.6 274350988 110896 ?    Sl   04:02   0:01 /home/runner/actions-runner/cached/bin/Runner.Worker spawnclient 142 145
+runner      2026 26.2  0.5 274263300 93512 ?     Sl   04:02   0:01 /home/runner/actions-runner/cached/bin/Runner.Listener run
+root           1  3.1  0.0  22856 13752 ?        Ss   04:00   0:03 /sbin/init
+root        1633  0.9  0.2 453540 35504 ?        Sl   04:01   0:00 /usr/bin/python3 -u bin/WALinuxAgent-2.15.0.1-py3.12.egg -run-exthandlers
+root          82  0.7  0.0      0     0 ?        I    04:00   0:00 [kworker/u16:3-efi_rts_wq]
+root          83  0.7  0.0      0     0 ?        I    04:00   0:00 [kworker/u16:4-events_power_efficient]
+root         163  0.4  0.1  83300 16992 ?        S<s  04:00   0:00 /usr/lib/systemd/systemd-journald
+root         907  0.4  0.2  44232 36108 ?        Ss   04:00   0:00 /usr/bin/python3 -u /usr/sbin/waagent -daemon
+root          24  0.4  0.0      0     0 ?        S    04:00   0:00 [migration/2]
 
 ---- SYSTEM UPTIME ----
- 04:06:13 up 0 min,  0 user,  load average: 1.63, 0.44, 0.15
+ 04:02:31 up 1 min,  0 user,  load average: 0.23, 0.14, 0.05
 
