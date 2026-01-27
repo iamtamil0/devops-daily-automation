@@ -1,6 +1,6 @@
 ======================================
  DAILY SYSTEM REPORT
- Generated on: Mon Jan 26 04:13:57 UTC 2026
+ Generated on: Tue Jan 27 04:04:46 UTC 2026
 ======================================
 
 ---- CPU INFORMATION ----
@@ -18,7 +18,7 @@ Thread(s) per core:                   2
 Core(s) per socket:                   2
 Socket(s):                            1
 Stepping:                             1
-BogoMIPS:                             4890.86
+BogoMIPS:                             4890.83
 Flags:                                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves user_shstk clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload umip vaes vpclmulqdq rdpid fsrm
 Virtualization:                       AMD-V
 Hypervisor vendor:                    Microsoft
@@ -46,32 +46,33 @@ Vulnerability Tsx async abort:        Not affected
 
 ---- MEMORY INFORMATION ----
                total        used        free      shared  buff/cache   available
-Mem:            15Gi       781Mi        13Gi        39Mi       1.8Gi        14Gi
-Swap:          3.0Gi          0B       3.0Gi
+Mem:            15Gi       845Mi       9.3Gi        39Mi       5.9Gi        14Gi
+Swap:          4.0Gi          0B       4.0Gi
 
 ---- DISK USAGE ----
 Filesystem      Size  Used Avail Use% Mounted on
-/dev/root       145G   53G   92G  37% /
+/dev/root        72G   50G   23G  69% /
 tmpfs           7.9G   84K  7.9G   1% /dev/shm
-tmpfs           3.2G 1000K  3.2G   1% /run
+tmpfs           3.2G 1008K  3.2G   1% /run
 tmpfs           5.0M     0  5.0M   0% /run/lock
-efivarfs        128M   32K  128M   1% /sys/firmware/efi/efivars
+efivarfs        128M   26K  128M   1% /sys/firmware/efi/efivars
 /dev/sda16      881M   62M  758M   8% /boot
 /dev/sda15      105M  6.2M   99M   6% /boot/efi
+/dev/sdb1        74G  4.1G   66G   6% /mnt
 tmpfs           1.6G   12K  1.6G   1% /run/user/1001
 
 ---- TOP 10 PROCESSES ----
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-runner      2171 80.1  0.6 274350908 112548 ?    Sl   04:13   0:01 /home/runner/actions-runner/cached/bin/Runner.Worker spawnclient 142 145
-runner      2156 38.0  0.5 274263220 93320 ?     Sl   04:13   0:01 /home/runner/actions-runner/cached/bin/Runner.Listener run
-root           1  0.5  0.0  22784 13824 ?        Ss   04:05   0:03 /sbin/init
-root        1529  0.2  0.2 452852 36076 ?        Sl   04:05   0:01 /usr/bin/python3 -u bin/WALinuxAgent-2.15.0.1-py3.12.egg -run-exthandlers
-root        2039  0.1  0.2 1265708 37980 ?       Sl   04:05   0:00 /tmp/provjobd681602393
-root          84  0.1  0.0      0     0 ?        I    04:05   0:00 [kworker/u16:5-events_unbound]
-root         378  0.1  0.0   3840  2816 ?        Ss   04:05   0:00 /usr/lib/linux-tools/6.11.0-1018-azure/hv_kvp_daemon -n
-root         164  0.1  0.1 116068 17180 ?        S<s  04:05   0:00 /usr/lib/systemd/systemd-journald
-root         953  0.0  0.2  44312 35400 ?        Ss   04:05   0:00 /usr/bin/python3 -u /usr/sbin/waagent -daemon
+runner      2063 58.3  0.6 274350960 111128 ?    Sl   04:04   0:01 /home/runner/actions-runner/cached/bin/Runner.Worker spawnclient 142 145
+runner      2048 25.7  0.5 274263364 93052 ?     Sl   04:04   0:01 /home/runner/actions-runner/cached/bin/Runner.Listener run
+root           1  1.8  0.0  22856 13688 ?        Ss   04:02   0:03 /sbin/init
+root        1589  0.5  0.2 452852 35680 ?        Sl   04:02   0:00 /usr/bin/python3 -u bin/WALinuxAgent-2.15.0.1-py3.12.egg -run-exthandlers
+root          45  0.5  0.0      0     0 ?        I    04:02   0:00 [kworker/u16:1-flush-8:0]
+root          82  0.3  0.0      0     0 ?        I    04:02   0:00 [kworker/u16:3-efi_rts_wq]
+root          24  0.2  0.0      0     0 ?        S    04:02   0:00 [migration/2]
+root          30  0.2  0.0      0     0 ?        S    04:02   0:00 [migration/1]
+root          36  0.2  0.0      0     0 ?        S    04:02   0:00 [migration/3]
 
 ---- SYSTEM UPTIME ----
- 04:13:57 up 8 min,  0 user,  load average: 0.00, 0.00, 0.00
+ 04:04:46 up 2 min,  0 user,  load average: 0.19, 0.16, 0.07
 
