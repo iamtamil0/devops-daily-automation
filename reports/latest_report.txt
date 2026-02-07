@@ -1,6 +1,6 @@
 ======================================
  DAILY SYSTEM REPORT
- Generated on: Fri Feb  6 04:43:30 UTC 2026
+ Generated on: Sat Feb  7 04:25:37 UTC 2026
 ======================================
 
 ---- CPU INFORMATION ----
@@ -11,21 +11,21 @@ Byte Order:                           Little Endian
 CPU(s):                               4
 On-line CPU(s) list:                  0-3
 Vendor ID:                            AuthenticAMD
-Model name:                           AMD EPYC 9V74 80-Core Processor
+Model name:                           AMD EPYC 7763 64-Core Processor
 CPU family:                           25
-Model:                                17
+Model:                                1
 Thread(s) per core:                   2
 Core(s) per socket:                   2
 Socket(s):                            1
 Stepping:                             1
-BogoMIPS:                             5192.27
+BogoMIPS:                             4890.87
 Flags:                                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves user_shstk clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload umip vaes vpclmulqdq rdpid fsrm
 Virtualization:                       AMD-V
 Hypervisor vendor:                    Microsoft
 Virtualization type:                  full
 L1d cache:                            64 KiB (2 instances)
 L1i cache:                            64 KiB (2 instances)
-L2 cache:                             2 MiB (2 instances)
+L2 cache:                             1 MiB (2 instances)
 L3 cache:                             32 MiB (1 instance)
 NUMA node(s):                         1
 NUMA node0 CPU(s):                    0-3
@@ -46,16 +46,16 @@ Vulnerability Tsx async abort:        Not affected
 
 ---- MEMORY INFORMATION ----
                total        used        free      shared  buff/cache   available
-Mem:            15Gi       1.2Gi       8.9Gi        39Mi       5.9Gi        14Gi
+Mem:            15Gi       1.1Gi       9.0Gi        39Mi       5.9Gi        14Gi
 Swap:          4.0Gi          0B       4.0Gi
 
 ---- DISK USAGE ----
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/root        72G   50G   23G  70% /
 tmpfs           7.9G   84K  7.9G   1% /dev/shm
-tmpfs           3.2G 1012K  3.2G   1% /run
+tmpfs           3.2G 1008K  3.2G   1% /run
 tmpfs           5.0M     0  5.0M   0% /run/lock
-efivarfs        128M   32K  128M   1% /sys/firmware/efi/efivars
+efivarfs        128M   26K  128M   1% /sys/firmware/efi/efivars
 /dev/sda16      881M   62M  758M   8% /boot
 /dev/sda15      105M  6.2M   99M   6% /boot/efi
 /dev/sdb1        74G  4.1G   66G   6% /mnt
@@ -63,16 +63,16 @@ tmpfs           1.6G   12K  1.6G   1% /run/user/1001
 
 ---- TOP 10 PROCESSES ----
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-runner      2038 80.4  0.6 274350724 111884 ?    Sl   04:43   0:01 /home/runner/actions-runner/cached/bin/Runner.Worker spawnclient 142 145
-runner      2022 40.3  0.5 274263308 92932 ?     Sl   04:43   0:01 /home/runner/actions-runner/cached/bin/Runner.Listener run
-root           1  7.8  0.0  22852 13820 ?        Ss   04:42   0:02 /sbin/init
-root        1632  5.2  0.2 453544 35560 ?        Sl   04:43   0:00 /usr/bin/python3 -u bin/WALinuxAgent-2.15.0.1-py3.12.egg -run-exthandlers
-root          46  2.0  0.0      0     0 ?        I    04:42   0:00 [kworker/u16:2-ext4-rsv-conversion]
-root          10  1.6  0.0      0     0 ?        I    04:42   0:00 [kworker/0:1-events]
-runner      1986  1.5  0.1 1235632 18520 ?       Ssl  04:43   0:00 /opt/hca/hosted-compute-agent
-root         918  1.3  0.2  44356 35208 ?        Ss   04:43   0:00 /usr/bin/python3 -u /usr/sbin/waagent -daemon
-root          45  1.1  0.0      0     0 ?        I    04:42   0:00 [kworker/u16:1-flush-8:0]
+runner      2034 56.5  0.6 274350928 110600 ?    Sl   04:25   0:01 /home/runner/actions-runner/cached/bin/Runner.Worker spawnclient 142 145
+runner      2018 25.3  0.5 274263304 93232 ?     Sl   04:25   0:01 /home/runner/actions-runner/cached/bin/Runner.Listener run
+root           1  7.0  0.0  22860 13884 ?        Ss   04:24   0:02 /sbin/init
+root        1628  3.6  0.2 453544 35456 ?        Sl   04:25   0:00 /usr/bin/python3 -u bin/WALinuxAgent-2.15.0.1-py3.12.egg -run-exthandlers
+root          11  1.7  0.0      0     0 ?        I    04:24   0:00 [kworker/u16:0-flush-8:0]
+root         166  1.0  0.1  83260 17032 ?        S<s  04:24   0:00 /usr/lib/systemd/systemd-journald
+root          24  1.0  0.0      0     0 ?        S    04:24   0:00 [migration/2]
+root          30  1.0  0.0      0     0 ?        S    04:24   0:00 [migration/1]
+root          36  1.0  0.0      0     0 ?        S    04:24   0:00 [migration/3]
 
 ---- SYSTEM UPTIME ----
- 04:43:30 up 0 min,  0 user,  load average: 0.56, 0.14, 0.05
+ 04:25:37 up 0 min,  0 user,  load average: 0.52, 0.14, 0.05
 
