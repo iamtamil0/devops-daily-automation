@@ -1,6 +1,6 @@
 ======================================
  DAILY SYSTEM REPORT
- Generated on: Mon Mar  9 04:47:20 UTC 2026
+ Generated on: Tue Mar 10 04:27:38 UTC 2026
 ======================================
 
 ---- CPU INFORMATION ----
@@ -50,14 +50,14 @@ Vulnerability Vmscape:                   Not affected
 
 ---- MEMORY INFORMATION ----
                total        used        free      shared  buff/cache   available
-Mem:            15Gi       1.5Gi        11Gi        39Mi       2.7Gi        14Gi
+Mem:            15Gi       855Mi        13Gi        40Mi       1.5Gi        14Gi
 Swap:          3.0Gi          0B       3.0Gi
 
 ---- DISK USAGE ----
 Filesystem      Size  Used Avail Use% Mounted on
-/dev/root       145G   54G   91G  37% /
+/dev/root       145G   53G   92G  37% /
 tmpfs           7.9G   84K  7.9G   1% /dev/shm
-tmpfs           3.2G 1008K  3.2G   1% /run
+tmpfs           3.2G  1.1M  3.2G   1% /run
 tmpfs           5.0M     0  5.0M   0% /run/lock
 efivarfs        128M   26K  128M   1% /sys/firmware/efi/efivars
 /dev/sda16      881M   63M  757M   8% /boot
@@ -66,16 +66,16 @@ tmpfs           1.6G   12K  1.6G   1% /run/user/1001
 
 ---- TOP 10 PROCESSES ----
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-runner      2079 76.1  0.6 274350400 111328 ?    Sl   04:47   0:01 /home/runner/actions-runner/cached/bin/Runner.Worker spawnclient 142 145
-runner      2064 35.2  0.5 274263288 94016 ?     Sl   04:47   0:01 /home/runner/actions-runner/cached/bin/Runner.Listener run
-root           1  7.6  0.0  22808 14068 ?        Ss   04:46   0:03 /sbin/init
-root        2044  4.4  0.4 1298036 80472 ?       Sl   04:47   0:00 /tmp/provjobd4261508975
-root        1518  2.7  0.2 453540 35928 ?        Sl   04:46   0:00 /usr/bin/python3 -u bin/WALinuxAgent-2.15.1.3-py3.12.egg -run-exthandlers
-root         925  1.6  0.2  44240 36356 ?        Ss   04:46   0:00 /usr/bin/python3 -u /usr/sbin/waagent -daemon
-runner      2028  1.3  0.1 1235460 16972 ?       Ssl  04:47   0:00 /opt/hca/hosted-compute-agent
-root          57  1.1  0.0      0     0 ?        I    04:46   0:00 [kworker/2:1-cgroup_destroy]
-root          47  1.1  0.0      0     0 ?        I    04:46   0:00 [kworker/u16:2-flush-8:0]
+runner      2267 60.2  0.6 274350892 112944 ?    Sl   04:27   0:01 /home/runner/actions-runner/cached/bin/Runner.Worker spawnclient 142 145
+runner      2252 29.8  0.5 274263328 95076 ?     Sl   04:27   0:01 /home/runner/actions-runner/cached/bin/Runner.Listener run
+root           1  0.2  0.0  22860 14084 ?        Ss   04:09   0:03 /sbin/init
+root        2114  0.2  0.5 1298744 88564 ?       Sl   04:09   0:02 /tmp/provjobd2902075453
+root        1363  0.1  0.2 453540 37128 ?        Sl   04:09   0:01 /usr/bin/python3 -u bin/WALinuxAgent-2.15.1.3-py3.12.egg -run-exthandlers
+root         395  0.1  0.0   3840  2900 ?        Ss   04:09   0:01 /usr/lib/linux-tools/6.14.0-1017-azure/hv_kvp_daemon -n
+root        1058  0.0  0.3 2014148 50932 ?       Ssl  04:09   0:00 /usr/bin/containerd
+root          47  0.0  0.0      0     0 ?        I    04:09   0:00 [kworker/u16:2-efi_rts_wq]
+root         163  0.0  0.1 116372 17952 ?        S<s  04:09   0:00 /usr/lib/systemd/systemd-journald
 
 ---- SYSTEM UPTIME ----
- 04:47:20 up 0 min,  0 user,  load average: 2.03, 0.54, 0.18
+ 04:27:38 up 18 min,  0 user,  load average: 0.00, 0.00, 0.00
 
