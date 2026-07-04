@@ -1,60 +1,57 @@
 ======================================
  DAILY SYSTEM REPORT
- Generated on: Fri Jul  3 06:22:12 UTC 2026
+ Generated on: Sat Jul  4 06:11:06 UTC 2026
 ======================================
 
 ---- CPU INFORMATION ----
 Architecture:                            x86_64
 CPU op-mode(s):                          32-bit, 64-bit
-Address sizes:                           46 bits physical, 57 bits virtual
+Address sizes:                           48 bits physical, 48 bits virtual
 Byte Order:                              Little Endian
 CPU(s):                                  4
 On-line CPU(s) list:                     0-3
-Vendor ID:                               GenuineIntel
-Model name:                              Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
-CPU family:                              6
-Model:                                   106
+Vendor ID:                               AuthenticAMD
+Model name:                              AMD EPYC 7763 64-Core Processor
+CPU family:                              25
+Model:                                   1
 Thread(s) per core:                      2
 Core(s) per socket:                      2
 Socket(s):                               1
-Stepping:                                6
-CPU(s) scaling MHz:                      125%
-CPU max MHz:                             2800.0000
-CPU min MHz:                             800.0000
-BogoMIPS:                                5586.87
-Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch tpr_shadow ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves vnmi avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq la57 rdpid fsrm arch_capabilities
-Virtualization:                          VT-x
+Stepping:                                1
+BogoMIPS:                                4890.85
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves user_shstk clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload umip vaes vpclmulqdq rdpid fsrm
+Virtualization:                          AMD-V
 Hypervisor vendor:                       Microsoft
 Virtualization type:                     full
-L1d cache:                               96 KiB (2 instances)
+L1d cache:                               64 KiB (2 instances)
 L1i cache:                               64 KiB (2 instances)
-L2 cache:                                2.5 MiB (2 instances)
-L3 cache:                                48 MiB (1 instance)
+L2 cache:                                1 MiB (2 instances)
+L3 cache:                                32 MiB (1 instance)
 NUMA node(s):                            1
 NUMA node0 CPU(s):                       0-3
 Vulnerability Gather data sampling:      Not affected
 Vulnerability Ghostwrite:                Not affected
-Vulnerability Indirect target selection: Mitigation; Aligned branch/return thunks
+Vulnerability Indirect target selection: Not affected
 Vulnerability Itlb multihit:             Not affected
 Vulnerability L1tf:                      Not affected
 Vulnerability Mds:                       Not affected
 Vulnerability Meltdown:                  Not affected
-Vulnerability Mmio stale data:           Vulnerable: Clear CPU buffers attempted, no microcode; SMT Host state unknown
+Vulnerability Mmio stale data:           Not affected
 Vulnerability Old microcode:             Not affected
 Vulnerability Reg file data sampling:    Not affected
-Vulnerability Retbleed:                  Vulnerable
-Vulnerability Spec rstack overflow:      Not affected
+Vulnerability Retbleed:                  Not affected
+Vulnerability Spec rstack overflow:      Vulnerable: Safe RET, no microcode
 Vulnerability Spec store bypass:         Vulnerable
 Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
-Vulnerability Spectre v2:                Mitigation; Retpolines; STIBP disabled; RSB filling; PBRSB-eIBRS Not affected; BHI Retpoline
+Vulnerability Spectre v2:                Mitigation; Retpolines; STIBP disabled; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected
 Vulnerability Srbds:                     Not affected
-Vulnerability Tsa:                       Not affected
+Vulnerability Tsa:                       Vulnerable: No microcode
 Vulnerability Tsx async abort:           Not affected
 Vulnerability Vmscape:                   Not affected
 
 ---- MEMORY INFORMATION ----
                total        used        free      shared  buff/cache   available
-Mem:            15Gi       1.2Gi        13Gi        39Mi       1.5Gi        14Gi
+Mem:            15Gi       1.3Gi        13Gi        39Mi       1.5Gi        14Gi
 Swap:          3.0Gi          0B       3.0Gi
 
 ---- DISK USAGE ----
@@ -63,23 +60,23 @@ Filesystem      Size  Used Avail Use% Mounted on
 tmpfs           7.9G   84K  7.9G   1% /dev/shm
 tmpfs           3.2G 1016K  3.2G   1% /run
 tmpfs           5.0M     0  5.0M   0% /run/lock
-efivarfs        128M   32K  128M   1% /sys/firmware/efi/efivars
+efivarfs        128M   26K  128M   1% /sys/firmware/efi/efivars
 /dev/sda16      881M   64M  756M   8% /boot
 /dev/sda15      105M  6.2M   99M   6% /boot/efi
 tmpfs           1.6G   12K  1.6G   1% /run/user/1001
 
 ---- TOP 10 PROCESSES ----
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-runner      2135 72.3  0.7 274354184 125992 ?    Sl   06:22   0:01 /home/runner/actions-runner/cached/2.335.1/bin/Runner.Worker spawnclient 142 145
-runner      2116 35.6  0.5 274264356 94404 ?     Sl   06:22   0:01 /home/runner/actions-runner/cached/2.335.1/bin/Runner.Listener run
-root           1  8.7  0.0  22956 14496 ?        Ss   06:21   0:02 /sbin/init
-root        2102  4.8  0.8 1430228 141460 ?      Sl   06:22   0:00 /tmp/provjobd1079427220
-root        1499  4.1  0.2 452860 35608 ?        Sl   06:21   0:00 /usr/bin/python3 -u bin/WALinuxAgent-2.15.2.1-py3.12.egg -run-exthandlers
-root          47  2.3  0.0      0     0 ?        I    06:21   0:00 [kworker/u16:2-flush-8:0]
-root           9  2.0  0.0      0     0 ?        I    06:21   0:00 [kworker/0:0-cgroup_free]
-root         159  1.7  0.1  83268 17876 ?        S<s  06:21   0:00 /usr/lib/systemd/systemd-journald
-root          23  1.3  0.0      0     0 ?        S    06:21   0:00 [migration/2]
+runner      2141 75.3  0.7 274352548 115440 ?    Sl   06:11   0:01 /home/runner/actions-runner/cached/2.335.1/bin/Runner.Worker spawnclient 142 145
+runner      2120 38.4  0.5 274263432 93120 ?     Sl   06:11   0:01 /home/runner/actions-runner/cached/2.335.1/bin/Runner.Listener run
+root        2109 11.9  0.8 1430996 146336 ?      Sl   06:11   0:00 /tmp/provjobd2417314181
+root           1  8.4  0.0  22936 14416 ?        Ss   06:10   0:02 /sbin/init
+root        1721  5.6  0.2 452860 35448 ?        Sl   06:10   0:00 /usr/bin/python3 -u bin/WALinuxAgent-2.15.2.1-py3.12.egg -run-exthandlers
+runner      2093  1.5  0.1 1235360 16500 ?       Ssl  06:11   0:00 /opt/hca/hosted-compute-agent
+root         156  1.4  0.1  83292 17732 ?        S<s  06:10   0:00 /usr/lib/systemd/systemd-journald
+root          23  1.2  0.0      0     0 ?        S    06:10   0:00 [migration/2]
+root          29  1.2  0.0      0     0 ?        S    06:10   0:00 [migration/1]
 
 ---- SYSTEM UPTIME ----
- 06:22:12 up 0 min,  0 user,  load average: 0.37, 0.10, 0.03
+ 06:11:06 up 0 min,  0 user,  load average: 1.10, 0.30, 0.10
 
