@@ -1,6 +1,6 @@
 ======================================
  DAILY SYSTEM REPORT
- Generated on: Thu Sep 10 07:38:33 UTC 2026
+ Generated on: Fri Sep 11 07:47:43 UTC 2026
 ======================================
 
 ---- CPU INFORMATION ----
@@ -18,11 +18,11 @@ Thread(s) per core:                      2
 Core(s) per socket:                      2
 Socket(s):                               1
 Stepping:                                2
-CPU(s) scaling MHz:                      135%
+CPU(s) scaling MHz:                      125%
 CPU max MHz:                             2300.0000
 CPU min MHz:                             800.0000
 BogoMIPS:                                4600.00
-Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch tpr_shadow ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves vnmi avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq la57 rdpid fsrm arch_capabilities
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch tpr_shadow ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves user_shstk avx_vnni avx512_bf16 vnmi avx512vbmi umip waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq la57 rdpid cldemote movdiri movdir64b fsrm serialize tsxldtrk ibt amx_bf16 avx512_fp16 amx_tile amx_int8 arch_capabilities
 Virtualization:                          VT-x
 Hypervisor vendor:                       Microsoft
 Virtualization type:                     full
@@ -49,36 +49,36 @@ Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers an
 Vulnerability Spectre v2:                Mitigation; Retpolines; STIBP disabled; RSB filling; PBRSB-eIBRS Not affected; BHI Retpoline
 Vulnerability Srbds:                     Not affected
 Vulnerability Tsa:                       Not affected
-Vulnerability Tsx async abort:           Vulnerable: Clear CPU buffers attempted, no microcode; SMT Host state unknown
+Vulnerability Tsx async abort:           Not affected
 Vulnerability Vmscape:                   Not affected
 
 ---- MEMORY INFORMATION ----
                total        used        free      shared  buff/cache   available
-Mem:            15Gi       1.4Gi        12Gi        40Mi       2.4Gi        14Gi
+Mem:            15Gi       949Mi        12Gi        40Mi       2.4Gi        14Gi
 Swap:          3.0Gi          0B       3.0Gi
 
 ---- DISK USAGE ----
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/root       145G   59G   87G  41% /
-tmpfs           7.9G   84K  7.9G   1% /dev/shm
-tmpfs           3.2G 1016K  3.2G   1% /run
-tmpfs           5.0M     0  5.0M   0% /run/lock
-/dev/sda16      881M   64M  756M   8% /boot
-/dev/sda15      105M  6.2M   99M   6% /boot/efi
-tmpfs           1.6G   12K  1.6G   1% /run/user/1001
+Filesystem       Size  Used Avail Use% Mounted on
+/dev/root        145G   59G   87G  41% /
+tmpfs            7.9G   84K  7.9G   1% /dev/shm
+tmpfs            3.2G 1012K  3.2G   1% /run
+tmpfs            5.0M     0  5.0M   0% /run/lock
+/dev/nvme0n1p16  881M   64M  756M   8% /boot
+/dev/nvme0n1p15  105M  6.2M   99M   6% /boot/efi
+tmpfs            1.6G   12K  1.6G   1% /run/user/1001
 
 ---- TOP 10 PROCESSES ----
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-runner      2100 54.7  0.7 274354904 126572 ?    Sl   07:38   0:01 /home/runner/actions-runner/cached/2.337.0/bin/Runner.Worker spawnclient 142 145
-runner      2080 27.3  0.5 274264240 94576 ?     Sl   07:38   0:00 /home/runner/actions-runner/cached/2.337.0/bin/Runner.Listener run
-root           1  7.1  0.0  22836 14244 ?        Ss   07:38   0:02 /sbin/init
-root        2048  4.0  0.8 1430932 145284 ?      Sl   07:38   0:00 /tmp/provjobd64602323
-root        1478  3.1  0.2 454656 37336 ?        Sl   07:38   0:00 /usr/bin/python3 -u bin/WALinuxAgent-2.16.0.2-py3.12.egg -run-exthandlers
-root          35  2.4  0.0      0     0 ?        S    07:38   0:00 [migration/3]
-root          23  1.7  0.0      0     0 ?        S    07:38   0:00 [migration/2]
-root          29  1.7  0.0      0     0 ?        S    07:38   0:00 [migration/1]
-root        1013  1.0  0.1  39460 30952 ?        Ss   07:38   0:00 /usr/bin/python3 -u /usr/sbin/waagent -daemon
+runner      1883 47.6  0.7 274354892 127148 ?    Sl   07:47   0:01 /home/runner/actions-runner/cached/2.337.0/bin/Runner.Worker spawnclient 142 145
+runner      1864 22.6  0.5 274264240 94628 ?     Sl   07:47   0:01 /home/runner/actions-runner/cached/2.337.0/bin/Runner.Listener run
+root           1  0.8  0.0  22888 14348 ?        Ss   07:42   0:02 /sbin/init
+root          35  0.3  0.0      0     0 ?        S    07:42   0:00 [migration/3]
+root        1109  0.2  0.2 454656 38056 ?        Sl   07:43   0:00 /usr/bin/python3 -u bin/WALinuxAgent-2.16.0.2-py3.12.egg -run-exthandlers
+root        1844  0.2  0.9 1430872 150708 ?      Sl   07:43   0:00 /tmp/provjobd67187788
+root          29  0.2  0.0      0     0 ?        S    07:42   0:00 [migration/1]
+root          23  0.2  0.0      0     0 ?        S    07:42   0:00 [migration/2]
+root         774  0.0  0.1  39480 31180 ?        Ss   07:43   0:00 /usr/bin/python3 -u /usr/sbin/waagent -daemon
 
 ---- SYSTEM UPTIME ----
- 07:38:33 up 0 min,  0 user,  load average: 1.49, 0.39, 0.13
+ 07:47:43 up 4 min,  0 user,  load average: 0.06, 0.23, 0.12
 
